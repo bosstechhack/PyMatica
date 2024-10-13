@@ -30,11 +30,12 @@ pymatica = "pymatica.cli:main"
 
 [project.optional-dependencies]
 all = [
-    "PyMatica[extra]",
+    "pandas",
+    "matplotlib",
 ]
-
 extra = [
     "pandas",
+    "matplotlib",
 ]
 
 

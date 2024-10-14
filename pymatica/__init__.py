@@ -2,7 +2,7 @@
 
 __author__ = """Ashish Ranjan"""
 __email__ = "admin@example.com"
-__version__ = "1.0.0"
+__version__ = "2.1.0"
 
 
 from .basic_statistics import BasicStatistics

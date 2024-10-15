@@ -1,58 +1,56 @@
 # pymatica/polynomial.py
 
-class Polynomial:
-    def __init__(self, coefficients):
-        self.coefficients = coefficients  # Coefficients from highest degree to constant term
 
-    def evaluate(self, x):
-        return sum(coef * (x ** i) for i, coef in enumerate(reversed(self.coefficients)))
 
-    def add(self, other):
-        length = max(len(self.coefficients), len(other.coefficients))
+def evaluate(coefficients, x):
+        return sum(coef * (x ** i) for i, coef in enumerate(reversed(coefficients)))
+
+def add(coeff1,coeff2):
+        length = max(len(coeff1), len(coeff2))
         result = [0] * length
         for i in range(length):
-            a = self.coefficients[i] if i < len(self.coefficients) else 0
-            b = other.coefficients[i] if i < len(other.coefficients) else 0
+            a = coeff1[i] if i < len(coeff1) else 0
+            b = coeff2[i] if i < len(coeff2) else 0
             result[i] = a + b
-        return Polynomial(result)
+        return (result)
 
-    def subtract(self, other):
-        length = max(len(self.coefficients), len(other.coefficients))
+def subtract(coeff1,coeff2):
+        length = max(len(coeff1), len(coeff2))
         result = [0] * length
         for i in range(length):
-            a = self.coefficients[i] if i < len(self.coefficients) else 0
-            b = other.coefficients[i] if i < len(other.coefficients) else 0
+            a = coeff1[i] if i < len(coeff1) else 0
+            b = coeff2[i] if i < len(coeff2) else 0
             result[i] = a - b
-        return Polynomial(result)
+        return (result)
 
-    def multiply(self, other):
-        result = [0] * (len(self.coefficients) + len(other.coefficients) - 1)
-        for i, a in enumerate(self.coefficients):
-            for j, b in enumerate(other.coefficients):
+def multiply(coeff1,coeff2):
+        result = [0] * (len(coeff1) + len(coeff2) - 1)
+        for i, a in enumerate(coeff1):
+            for j, b in enumerate(coeff2):
                 result[i + j] += a * b
-        return Polynomial(result)
+        return (result)
 
-    def differentiate(self):
-        if len(self.coefficients) == 1:
-            return Polynomial([0])  # Derivative of a constant is zero
-        result = [coef * (len(self.coefficients) - 1 - i) for i, coef in enumerate(self.coefficients[:-1])]
-        return Polynomial(result)
+def differentiate(coefficients):
+        if len(coefficients) == 1:
+            return [0]  # Derivative of a constant is zero
+        result = [coef * (len(coefficients) - 1 - i) for i, coef in enumerate(coefficients[:-1])]
+        return result
 
-    def __str__(self):
-        terms = []
-        for i, coef in enumerate(reversed(self.coefficients)):
-            if coef:
-                term = f"{coef}x^{len(self.coefficients) - 1 - i}" if len(self.coefficients) - 1 - i > 0 else str(coef)
-                terms.append(term)
-        return " + ".join(terms)
+def polynomial_str(coefficients):
+    """Return the polynomial as a string."""
+    terms = []
+    for i, coef in enumerate(reversed(coefficients)):
+        if coef:
+            term = f"{coef}x^{len(coefficients) - 1 - i}" if len(coefficients) - 1 - i > 0 else str(coef)
+            terms.append(term)
+    return " + ".join(terms)
 
-    def __call__(self, x):
-        return self.evaluate(x)
 
-    def roots(self):
+
+def roots(coefficients):
         """Finds the roots of the polynomial using numpy's roots method."""
-        if len(self.coefficients) == 0:
+        if len(coefficients) == 0:
             return []
         # For polynomials of degree 2 or higher
         from numpy import roots
-        return roots(self.coefficients)
+        return roots(coefficients)
